@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta content="telephone=no" , name="format-detection">
+    <title>用户注册</title>
+    <!-- build:css css/register.css -->
+    <link href="css/common.less" rel="stylesheet" type="text/css">
+    <link href="css/register.less" rel="stylesheet" type="text/css">
+    <!-- endbuild -->
+</head>
+<body>
+<div class="register">
+    <div class="register-inner">
+        <div class="ri-wrap">
+            <div class="title">注册立即领取</div>
+            <div class="code">
+                <span class="key">邀请码：</span>
+                <span class="value">FOAJ1HK</span>
+            </div>
+            <div class="slogan"></div>
+            <form action="#">
+                <div class="register-input">
+                    <input placeholder="请输入手机号" name="phone" type="tel">
+                </div>
+                <div class="register-input">
+                    <input placeholder="请输入验证码" name="verifyCode" type="tel">
+                    <span id="send" onclick="Register.sendVerifyCode()">获取</span>
+                </div>
+                <div class="register-input">
+                    <input placeholder="请输入密码" name="password" type="password">
+                </div>
+                <button class="submit-btn" type="submit">注册</button>
+            </form>
+        </div>
+    </div>
+    <div class="bg1"></div>
+    <div class="bg2"></div>
+</div>
+
+<!-- build:js js/register.js -->
+<script src="../libs/jquery-2.1.1.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/register.js"></script>
+<!-- endbuild -->
+</body>
+</html>
