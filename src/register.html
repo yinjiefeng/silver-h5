@@ -18,21 +18,21 @@
             <div class="title">注册立即领取</div>
             <div class="code">
                 <span class="key">邀请码：</span>
-                <span class="value">FOAJ1HK</span>
+                <span class="value" id="inviteCode"></span>
             </div>
             <div class="slogan"></div>
-            <form action="#">
+            <form class="register-form" id="registerForm">
                 <div class="register-input">
-                    <input placeholder="请输入手机号" name="phone" type="tel">
+                    <input placeholder="请输入手机号" name="phone" type="tel" id="phone">
                 </div>
                 <div class="register-input">
-                    <input placeholder="请输入验证码" name="verifyCode" type="tel">
-                    <span id="send" onclick="Register.sendVerifyCode()">获取</span>
+                    <input placeholder="请输入验证码" name="verifyCode" type="tel" id="verifyCode">
+                    <span id="send" onclick="Register.sendVerifyCode()"></span>
                 </div>
                 <div class="register-input">
-                    <input placeholder="请输入密码" name="password" type="password">
+                    <input placeholder="请输入密码" name="password" type="password" id="password">
                 </div>
-                <button class="submit-btn" type="submit">注册</button>
+                <button class="submit-btn" onclick="Register.onSubmit()">注册</button>
             </form>
         </div>
     </div>

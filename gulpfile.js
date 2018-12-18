@@ -23,9 +23,12 @@ gulp.task('useref', function(){
     return gulp.src(['src/*.html'])
         .pipe($.useref())
         .pipe($.if('*.js', $.babel({presets: ['es2015']}))) // Convert ES6 to ES5
+        .pipe($.if('*.js', $.rev())) // append hash to the packed js file
         .pipe($.if(isCompress, $.if('*.js', $.uglify()))) // Uglifies Javascript files
         .pipe($.if('*.css', $.less()))
+        .pipe($.if('*.css', $.rev())) // append hash to the packed js file
         .pipe($.if(isCompress, $.if('*.css', $.cleanCss())))
+        .pipe($.revReplace())
         .pipe(gulp.dest('dist/'));
 });
 
