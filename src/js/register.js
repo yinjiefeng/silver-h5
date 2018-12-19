@@ -178,7 +178,7 @@ var Register = {
                 } else {
                     Common.toast("注册成功");
                     setTimeout(function () {
-                        location.href = "/index.html";
+                        location.href = "https://app.xiyinshenghuo.com/index.html";
                     }, 2000);
                 }
             },
