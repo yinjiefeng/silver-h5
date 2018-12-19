@@ -2,12 +2,18 @@
 * 注册页面
 * */
 var CLS_DISABLED = 'disabled';
-var MAX_COUNT_DOWN = 10;
+var MAX_COUNT_DOWN = 60;
+
+//dev
+// var ServerAddress = "http://192.168.0.103:19080";
+//prod
+var ServerAddress = "";
 
 var Register = {
     inviteCode: null,
+    smsCode: '',
     init: function () {
-        this.inviteCode = Common.getUrlParam('invitecode');
+        this.inviteCode = Common.getUrlParam('pCode');
 
         if (!this.inviteCode) {
             Common.showErrorPage("未找到邀请码, 请退出重试或联系客服");
@@ -98,36 +104,99 @@ var Register = {
     },
     //发送验证码
     sendVerifyCode: function () {
-        this.countDown(function () {
-            Common.toast("验证码发送成功");
-        });
-    },
-    //提交注册
-    onSubmit: function () {
-        if(!this.isPhoneNumValid()) {
+        var login = $('#phone').val();
+        if(!this.isPhoneNumValid(login)) {
             return;
         }
 
-        $("#registerForm").submit(function(e){
+        this.countDown(function () {
+            //调用获取验证码接口
+            var login = $('#phone').val();
+            if(!Register.isPhoneNumValid(login)) {
+                return;
+            }
+
             $.ajax({
-                url:"/WebTest/test/testJson.do",
-                data:$('#registerForm').serialize(),
-                dataType:"json",
-                error:function(data){
-                    alert(data);
+                type: 'GET',
+                url: ServerAddress + "/service/user/sendSmsCode",
+                data: {
+                    phone: login,
+                    type: "1"
                 },
-                success:function(data){
-                    alert(data);
+                dataType:"json",
+                success:function(res){
+                    console.log(res);
+                    if(res.status != 0) {
+                        Common.toast(res.msg);
+                    } else {
+                        Common.toast("验证码发送成功");
+                    }
+                },
+                error:function(){
+                    Common.toast("服务器异常,验证码发送失败");
                 }
             });
         });
     },
-    //校验手机号是否合法
-    isPhoneNumValid: function() {
-        var phonenum = $("#phone").val();
-        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+    //提交注册
+    onSubmit: function (evt) {
+        evt.preventDefault();
 
-        if(!myreg.test(phonenum)){
+        var login = $('#phone').val();
+        if(!this.isPhoneNumValid(login)) {
+            return;
+        }
+
+        var smsCode = $('#verifyCode').val();
+        if(!smsCode) {
+            Common.toast("验证码不能为空");
+            return;
+        }
+
+        var password = $('#password').val();
+        if(!password) {
+            Common.toast("密码不能为空");
+            return;
+        }
+
+        var data = {
+            inviteCode: this.inviteCode,
+            login: login,
+            smsCode: smsCode,
+            password: password
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: ServerAddress + "/service/user/qrcodeRegister",
+            data: data,
+            dataType:"json",
+            success:function(res){
+                console.log(res);
+                if(res.status != 0) {
+                    Common.toast(res.msg);
+                } else {
+                    Common.toast("注册成功");
+                    setTimeout(function () {
+                        location.href = "/index.html";
+                    }, 2000);
+                }
+            },
+            error:function(){
+                Common.toast("服务器异常,注册失败");
+            }
+        });
+    },
+    //校验手机号是否合法
+    isPhoneNumValid: function(phoneNum) {
+        var myReg = /^\d{11}$/;
+
+        if(!phoneNum) {
+            Common.toast("手机号不能为空");
+            return false;
+        }
+
+        if(!myReg.test(phoneNum)){
             Common.toast('请输入有效的手机号码！');
             return false;
         }

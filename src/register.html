@@ -25,14 +25,16 @@
                 <div class="register-input">
                     <input placeholder="请输入手机号" name="phone" type="tel" id="phone">
                 </div>
-                <div class="register-input">
-                    <input placeholder="请输入验证码" name="verifyCode" type="tel" id="verifyCode">
+                <div class="register-code">
+                    <div class="register-input">
+                        <input placeholder="请输入验证码" name="verifyCode" type="tel" id="verifyCode">
+                    </div>
                     <span id="send" onclick="Register.sendVerifyCode()"></span>
                 </div>
                 <div class="register-input">
                     <input placeholder="请输入密码" name="password" type="password" id="password">
                 </div>
-                <button class="submit-btn" onclick="Register.onSubmit()">注册</button>
+                <button class="submit-btn" onclick="Register.onSubmit(event)">注册</button>
             </form>
         </div>
     </div>
