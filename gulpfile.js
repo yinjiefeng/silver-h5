@@ -34,7 +34,7 @@ gulp.task('useref', function(){
 
 //清除dist目录
 gulp.task('copy-images', function () {
-    return gulp.src(['src/image/**/*.*'])
+    return gulp.src(['src/image/*.*'])
         .pipe(gulp.dest('dist/image'));
 });
 
@@ -47,7 +47,7 @@ gulp.task('watch', function () {
     gulp.watch(["src/js/*.js", 'src/css/*.css', 'src/css/*.less', 'src/*.html']).on('change', ()=>{
         runSequence('useref', browserSync.reload);
     });
-    gulp.watch(['src/image/**/*.*']).on('change', ()=>{
+    gulp.watch(['src/image/*.*']).on('change', ()=>{
         runSequence('copy-images', browserSync.reload);
     });
 });
