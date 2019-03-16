@@ -2,35 +2,29 @@
 * 分享出的商品详情页面
 * */
 
-//dev
-// var ServerAddress = "http://192.168.0.103:19080";
-//prod
-var ServerAddress = "";
-
 var Product = {
-    productId: null,
     isCopied: false,
     shareCommand: null,
     init: function () {
-        this.productId = Common.getUrlParam('pid');
+        this.shareCommand = Common.getUrlParam('tcode');
 
-        if (!this.productId) {
+        if (!this.shareCommand) {
             Common.showErrorPage("未找到商品ID, 请退出重试");
             return;
         }
 
-        this.initProductInfo();
+        this.getProductInfo();
     },
     //获取商品信息
     getProductInfo: function() {
         var context = this,
             data = {
-                pid: this.productId
+                tbkPwd: this.shareCommand
             };
 
         $.ajax({
-            type: 'POST',
-            url: ServerAddress + "/service/user/qrcodeRegister",
+            type: 'GET',
+            url: "/service/taobao-link/getItemByTbkPwd",
             data: data,
             dataType:"json",
             success:function(res){
@@ -48,20 +42,12 @@ var Product = {
     },
     //初始化商品信息
     initProductInfo: function(productInfo) {
-        var productImgList = [{
-                url: "https://www.swiper.com.cn/demo/img/sport1.jpg"
-            },{
-                url: "https://www.swiper.com.cn/demo/img/sport2.jpg"
-            },{
-                url: "https://www.swiper.com.cn/demo/img/sport3.jpg"
-            }],
-            productTitle = "无限运动无限运动无限运动无限运动无限运动无限运动无限运动无限运动无限运动无限运动无限运动无限运动无限运动无限运动",
-            discount = 10,
+        var productImgList = productInfo.smallImages,
+            productTitle = productInfo.title,
+            discount = productInfo.zkFinalPrice || 0,
             ticketValue = "￥" + discount,
-            oldPrice = 89,
+            oldPrice = productInfo.reservePrice,
             newPrice = oldPrice - discount;
-
-        this.shareCommand = "Abcd90132SADSsad";
 
         //标题
         $('.sp-title').html(productTitle);
@@ -79,27 +65,36 @@ var Product = {
         $('.silver-product').removeClass('hide');
     },
     //初始化商品幻灯片
-    initProductSlider: function (productImgList) {
-        if(!productImgList || productImgList.length <= 0) {
+    initProductSlider: function (productImgListStr) {
+        if(!productImgListStr) {
             return this;
         }
+
+        var productImgList = productImgListStr.split(",");
+
+        if(productImgList.length <= 0) {
+            return this;
+        }
+
         //初始化幻灯片所需元素
         var html = '';
 
         for (var i = 0; i < productImgList.length; i++) {
             html += '<div class="swiper-slide">' +
-                '       <img src="'+ productImgList[i].url +'">' +
+                '       <img src="'+ productImgList[i] +'">' +
                 '    </div>';
         }
 
         $('.swiper-wrapper').html(html);
 
         //初始化幻灯片控件
-        new Swiper('.swiper-container', {
-            pagination: {
-                el: '.swiper-pagination',
-            }
-        });
+        setTimeout(function () {
+            new Swiper('.swiper-container', {
+                pagination: {
+                    el: '.swiper-pagination',
+                }
+            });
+        }, 200);
 
         return this;
     },
