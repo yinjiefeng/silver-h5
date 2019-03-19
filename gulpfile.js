@@ -7,7 +7,7 @@ var del = require('del');
 var browserSync = require('browser-sync').create();
 var runSequence = require('run-sequence');
 var isCompress = false;
-var proxyAddress = "http://192.168.0.107:19080";
+var proxyAddress = "http://47.99.200.198:19080";
 var proxyMiddleware = require('http-proxy-middleware');
 
 gulp.task('browser-sync', function() {

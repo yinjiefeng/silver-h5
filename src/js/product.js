@@ -13,6 +13,8 @@ var Product = {
             return;
         }
 
+        this.shareCommand = decodeURI(this.shareCommand);
+
         this.getProductInfo();
     },
     //获取商品信息
