@@ -1,5 +1,16 @@
 .silver-product {
   padding: 0.9rem;
+  position: relative;
+  .share-commission {
+    position: absolute;
+    right: 0.9rem;
+    top: 2.5rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 0.5rem;
+    text-align: center;
+    padding: 0.1rem 0.3rem;
+  }
   .sp-btn {
     background-image: linear-gradient(90deg, #ff9c7e 0%, #e55e5d 100%);
     color: #fff;
@@ -66,23 +77,26 @@
       }
       .ticket-value {
         position: absolute;
-        right: 1rem;
+        right: 0.6rem;
       }
     }
-    .old-price {
-      font-size: 0.6rem;
-      color: #999;
-      text-decoration: line-through;
-      margin-left: 0.9rem;
-    }
-    .new-price-label {
-      font-size: 0.6rem;
-      color: #e55e5d;
-    }
-    .new-price {
-      font-size: 1.3rem;
-      color: #e55e5d;
-      vertical-align: middle;
+    .sp-new-price {
+      display: inline-block;
+      .old-price {
+        font-size: 0.6rem;
+        color: #999;
+        text-decoration: line-through;
+        margin-left: 0.5rem;
+      }
+      .new-price-label {
+        font-size: 0.6rem;
+        color: #e55e5d;
+      }
+      .new-price {
+        font-size: 1.1rem;
+        color: #e55e5d;
+        vertical-align: middle;
+      }
     }
   }
   .sp-code {

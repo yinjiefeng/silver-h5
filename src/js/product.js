@@ -49,8 +49,14 @@ var Product = {
             discount = productInfo.zkFinalPrice || 0,
             ticketValue = "￥" + discount,
             oldPrice = productInfo.reservePrice,
-            newPrice = oldPrice - discount;
+            newPrice = oldPrice - discount,
+            shareCommission = productInfo.commissionRateFee;
 
+        //下载佣金
+        $('#shareCommissionValue').html(shareCommission);
+        if(shareCommission * 1 > 0) {
+            $('.share-commission').removeClass('hide');
+        }
         //标题
         $('.sp-title').html(productTitle);
         //折扣
