@@ -42,11 +42,16 @@ var AuthCallback = {
                 if(res.status != 0) {
                     Common.showErrorPage(res.msg);
                 } else {
-                    context.initProductInfo(res.data);
+                    if(res.data && res.data.links && res.data.links.couponShortUrl) {
+                        var linkUrl = res.data.links.couponShortUrl;
+                        window.location.href = linkUrl;
+                    } else {
+                        Common.showErrorPage("未找到优惠券信息，请退出重试");
+                    }
                 }
             },
             error:function(){
-                Common.showErrorPage("未找到商品信息, 请退出重试");
+                Common.showErrorPage("授权失败，请退出重试");
             }
         });
     }
