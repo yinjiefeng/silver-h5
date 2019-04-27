@@ -9,12 +9,13 @@ var AuthCallback = {
     userId: null, //淘宝id
     userNick: null, //淘宝昵称
     init: function () {
-        this.uid = Common.getUrlParam('taobao_open_uid');
-        this.extTime = Common.getUrlParam('re_expires_in');
-        this.session = Common.getUrlParam('access_token');
-        this.state = Common.getUrlParam('state');
-        this.userId = Common.getUrlParam('taobao_user_id');
-        this.userNick = Common.getUrlParam('taobao_user_nick');
+        this.uid = Common.getUrlParamBySharp('taobao_open_uid');
+        this.extTime = Common.getUrlParamBySharp('re_expires_in');
+        this.session = Common.getUrlParamBySharp('access_token');
+        this.state = Common.getUrlParamBySharp('state');
+        this.userId = Common.getUrlParamBySharp('taobao_user_id');
+        this.userNick = Common.getUrlParamBySharp('taobao_user_nick');
+        // alert("uid: " + this.uid);
 
         if (!this.uid || !this.session || !this.extTime) {
             Common.showErrorPage("授权失败，请退出重试");
@@ -41,7 +42,7 @@ var AuthCallback = {
             data: data,
             dataType:"json",
             success: function(res){
-                console.log(res);
+                alert(JSON.stringify(res));
                 if(res.status != 0) {
                     Common.showErrorPage(res.msg);
                 } else {
@@ -53,7 +54,8 @@ var AuthCallback = {
                     }
                 }
             },
-            error:function(){
+            error:function(err){
+                // alert(JSON.stringify(err));
                 Common.showErrorPage("授权失败，请退出重试");
             }
         });
